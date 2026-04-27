@@ -12,7 +12,6 @@
 
   :root {
     --gold: #c8a96e;
-    --gold-light: #e8d5a3;
     --gold-dim: #7a6038;
     --bg: #0a0907;
     --bg2: #11100d;
@@ -23,8 +22,6 @@
     --text: #e8e0cc;
     --text-muted: #8a8070;
     --text-dim: #5a5448;
-    --red: #c0392b;
-    --crown: #c8a96e;
   }
 
   html { scroll-behavior: smooth; }
@@ -33,12 +30,12 @@
     background: var(--bg);
     color: var(--text);
     font-family: 'Crimson Pro', Georgia, serif;
-    font-size: 18px;
+    font-size: clamp(16px, 2.2vw, 18px);
     line-height: 1.6;
     overflow-x: hidden;
+    width: 100%;
   }
 
-  /* ── NAV ── */
   nav {
     position: fixed;
     top: 0; left: 0; right: 0;
@@ -46,440 +43,253 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1rem 2.5rem;
-    background: rgba(10,9,7,0.85);
+    padding: 0.9rem clamp(1rem, 5vw, 2.5rem);
+    background: rgba(10,9,7,0.88);
     backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border-bottom: 0.5px solid var(--border);
   }
   nav .logo {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.5rem;
+    font-size: clamp(1.2rem, 4vw, 1.5rem);
     letter-spacing: 0.12em;
     color: var(--gold);
     text-decoration: none;
   }
-  nav ul {
-    display: flex;
-    gap: 2rem;
-    list-style: none;
-  }
+  nav ul { display: flex; gap: clamp(1rem, 3vw, 2rem); list-style: none; }
   nav a {
     font-family: 'DM Mono', monospace;
-    font-size: 0.72rem;
+    font-size: clamp(0.6rem, 1.5vw, 0.72rem);
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--text-muted);
     text-decoration: none;
     transition: color 0.2s;
+    white-space: nowrap;
   }
   nav a:hover { color: var(--gold); }
+  @media (max-width: 400px) { nav ul { display: none; } }
 
-  /* ── HERO ── */
   .hero {
-    min-height: 100vh;
+    min-height: 100svh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 8rem 2rem 4rem;
+    padding: clamp(5rem, 12vw, 8rem) clamp(1rem, 5vw, 2rem) clamp(3rem, 6vw, 4rem);
     position: relative;
     overflow: hidden;
   }
-
   .hero::before {
     content: '';
-    position: absolute;
-    inset: 0;
+    position: absolute; inset: 0;
     background:
       radial-gradient(ellipse 60% 50% at 50% 60%, rgba(200,169,110,0.07) 0%, transparent 70%),
       radial-gradient(ellipse 40% 30% at 20% 20%, rgba(192,57,43,0.06) 0%, transparent 60%);
     pointer-events: none;
   }
-
   .hero-crown {
-    font-size: 3rem;
-    margin-bottom: 1.2rem;
+    font-size: clamp(2rem, 6vw, 3rem);
+    margin-bottom: 1rem;
     filter: drop-shadow(0 0 20px rgba(200,169,110,0.4));
     animation: crownFloat 4s ease-in-out infinite;
   }
-
   @keyframes crownFloat {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-8px); }
   }
-
   .hero-avatar {
-    width: 110px;
-    height: 110px;
+    width: clamp(80px, 18vw, 110px);
+    height: clamp(80px, 18vw, 110px);
     border-radius: 50%;
     border: 2px solid var(--gold-dim);
-    object-fit: cover;
-    margin-bottom: 1.8rem;
+    margin-bottom: 1.5rem;
     box-shadow: 0 0 40px rgba(200,169,110,0.2), 0 0 0 6px rgba(200,169,110,0.06);
     background: var(--surface);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex; align-items: center; justify-content: center;
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 2.5rem;
+    font-size: clamp(1.6rem, 5vw, 2.5rem);
     color: var(--gold);
-    overflow: hidden;
+    overflow: hidden; flex-shrink: 0;
   }
-
   .hero h1 {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(4rem, 12vw, 9rem);
+    font-size: clamp(3.5rem, 16vw, 9rem);
     letter-spacing: 0.04em;
     line-height: 0.9;
     color: var(--text);
     margin-bottom: 0.5rem;
-    position: relative;
   }
-
-  .hero h1 span {
-    color: var(--gold);
-  }
-
+  .hero h1 span { color: var(--gold); }
   .hero-sub {
     font-family: 'DM Mono', monospace;
-    font-size: 0.75rem;
+    font-size: clamp(0.6rem, 2vw, 0.75rem);
     letter-spacing: 0.25em;
     text-transform: uppercase;
     color: var(--text-muted);
-    margin-bottom: 2.5rem;
+    margin-bottom: 2rem;
   }
-
   .hero-tags {
-    display: flex;
-    gap: 0.75rem;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-bottom: 3rem;
+    display: flex; gap: 0.5rem;
+    justify-content: center; flex-wrap: wrap;
+    padding: 0 1rem; margin-top: 1.8rem;
   }
   .tag {
     font-family: 'DM Mono', monospace;
-    font-size: 0.68rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--gold-dim);
-    border: 0.5px solid var(--border);
-    padding: 0.3rem 0.8rem;
-    border-radius: 2px;
+    font-size: clamp(0.58rem, 1.5vw, 0.68rem);
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--gold-dim); border: 0.5px solid var(--border);
+    padding: 0.3rem 0.7rem; border-radius: 2px; white-space: nowrap;
   }
 
-  .hero-scroll {
-    margin-top: 2rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    color: var(--text-dim);
-    font-family: 'DM Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    animation: fadeInUp 1.5s 0.8s both;
-  }
-
-  .scroll-line {
-    width: 1px;
-    height: 50px;
-    background: linear-gradient(to bottom, var(--border-strong), transparent);
-    animation: scrollPulse 2s ease-in-out infinite;
-  }
-
-  @keyframes scrollPulse {
-    0%, 100% { opacity: 0.4; }
-    50% { opacity: 1; }
-  }
-
-  @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(12px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  /* ── SECTION SHARED ── */
   section {
-    padding: 6rem 2rem;
-    max-width: 860px;
-    margin: 0 auto;
+    padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 2rem);
+    max-width: 860px; margin: 0 auto; width: 100%;
   }
-
   .section-label {
     font-family: 'DM Mono', monospace;
-    font-size: 0.68rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--gold-dim);
-    margin-bottom: 0.6rem;
+    font-size: clamp(0.6rem, 1.8vw, 0.68rem);
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--gold-dim); margin-bottom: 0.6rem;
   }
-
   .section-title {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(2.5rem, 6vw, 4rem);
-    letter-spacing: 0.06em;
-    color: var(--text);
-    margin-bottom: 2.5rem;
-    border-bottom: 0.5px solid var(--border);
-    padding-bottom: 1rem;
+    font-size: clamp(2rem, 8vw, 4rem);
+    letter-spacing: 0.06em; color: var(--text);
+    margin-bottom: 2rem;
+    border-bottom: 0.5px solid var(--border); padding-bottom: 0.8rem;
+  }
+  .divider {
+    max-width: 860px; margin: 0 auto;
+    border: none; border-top: 0.5px solid var(--border);
   }
 
-  /* ── LINKS SECTION ── */
-  #links .link-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
+  .link-grid { display: flex; flex-direction: column; gap: 0.85rem; }
   .link-card {
-    display: flex;
-    align-items: center;
-    gap: 1.2rem;
-    padding: 1.1rem 1.4rem;
-    background: var(--surface);
-    border: 0.5px solid var(--border);
-    border-radius: 3px;
-    text-decoration: none;
-    color: var(--text);
-    transition: all 0.22s ease;
-    position: relative;
-    overflow: hidden;
+    display: flex; align-items: center;
+    gap: clamp(0.8rem, 3vw, 1.2rem);
+    padding: clamp(0.9rem, 3vw, 1.1rem) clamp(1rem, 3vw, 1.4rem);
+    background: var(--surface); border: 0.5px solid var(--border);
+    border-radius: 3px; text-decoration: none; color: var(--text);
+    transition: all 0.22s ease; position: relative; overflow: hidden;
   }
-
   .link-card::before {
-    content: '';
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 3px;
-    background: var(--gold);
-    transform: scaleY(0);
-    transition: transform 0.22s ease;
-    transform-origin: bottom;
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+    width: 3px; background: var(--gold);
+    transform: scaleY(0); transition: transform 0.22s ease; transform-origin: bottom;
   }
-
-  .link-card:hover {
-    border-color: var(--border-strong);
-    background: var(--bg3);
-    transform: translateX(4px);
+  .link-card:hover { border-color: var(--border-strong); background: var(--bg3); transform: translateX(4px); }
+  .link-card:hover::before { transform: scaleY(1); }
+  @media (hover: none) {
+    .link-card:hover { transform: none; }
+    .link-card:active { border-color: var(--border-strong); background: var(--bg3); }
+    .link-card:active::before { transform: scaleY(1); }
   }
-
-  .link-card:hover::before {
-    transform: scaleY(1);
-  }
-
   .link-icon {
-    width: 42px;
-    height: 42px;
-    border-radius: 8px;
-    background: var(--bg2);
-    border: 0.5px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    font-size: 1.3rem;
+    width: clamp(36px, 8vw, 42px); height: clamp(36px, 8vw, 42px);
+    border-radius: 8px; background: var(--bg2); border: 0.5px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; font-size: clamp(1rem, 3.5vw, 1.3rem);
   }
-
-  .link-text {
-    flex: 1;
-  }
-
+  .link-text { flex: 1; min-width: 0; }
   .link-name {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.3rem;
-    letter-spacing: 0.06em;
-    color: var(--text);
-    line-height: 1;
-    margin-bottom: 0.15rem;
+    font-size: clamp(1.1rem, 4vw, 1.3rem);
+    letter-spacing: 0.06em; color: var(--text); line-height: 1; margin-bottom: 0.1rem;
   }
-
   .link-desc {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    font-style: italic;
+    font-size: clamp(0.75rem, 2.2vw, 0.85rem);
+    color: var(--text-muted); font-style: italic;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
-
   .link-arrow {
     font-family: 'DM Mono', monospace;
-    font-size: 1rem;
-    color: var(--gold-dim);
-    transition: color 0.2s, transform 0.2s;
+    font-size: clamp(0.85rem, 3vw, 1rem);
+    color: var(--gold-dim); transition: color 0.2s, transform 0.2s; flex-shrink: 0;
   }
-  .link-card:hover .link-arrow {
-    color: var(--gold);
-    transform: translateX(3px);
-  }
+  .link-card:hover .link-arrow { color: var(--gold); transform: translateX(3px); }
 
-  /* ── ABOUT ── */
-  #about .about-text {
-    font-size: 1.15rem;
-    color: var(--text-muted);
-    line-height: 1.9;
-    max-width: 600px;
+  .about-text {
+    font-size: clamp(1rem, 2.5vw, 1.15rem);
+    color: var(--text-muted); line-height: 1.9; max-width: 600px;
   }
-
-  #about .about-text em {
-    color: var(--gold);
-    font-style: italic;
-  }
-
-  /* ── DIVIDER ── */
-  .divider {
-    max-width: 860px;
-    margin: 0 auto;
-    border: none;
-    border-top: 0.5px solid var(--border);
-  }
-
-  /* ── STATS ── */
-  #stats {
-    padding: 6rem 2rem;
-    max-width: 860px;
-    margin: 0 auto;
-  }
+  .about-text em { color: var(--gold); font-style: italic; }
 
   .stats-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(0.75rem, 2vw, 1rem);
   }
-
   .stat-card {
-    background: var(--surface);
-    border: 0.5px solid var(--border);
+    background: var(--surface); border: 0.5px solid var(--border);
     border-radius: 3px;
-    padding: 1.5rem 1.4rem;
-    position: relative;
-    overflow: hidden;
-    transition: border-color 0.2s;
+    padding: clamp(1rem, 3vw, 1.5rem) clamp(1rem, 3vw, 1.4rem);
+    position: relative; overflow: hidden; transition: border-color 0.2s;
   }
-
   .stat-card:hover { border-color: var(--border-strong); }
-
   .stat-card::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 2px;
-    background: var(--gold);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.4s ease;
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+    height: 2px; background: var(--gold);
+    transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease;
   }
-
   .stat-card.loaded::after { transform: scaleX(1); }
-
   .stat-platform {
     font-family: 'DM Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--gold-dim);
-    margin-bottom: 0.75rem;
+    font-size: clamp(0.58rem, 1.8vw, 0.65rem);
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold-dim); margin-bottom: 0.6rem;
   }
-
   .stat-number {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 2.8rem;
-    letter-spacing: 0.04em;
-    color: var(--text);
-    line-height: 1;
-    margin-bottom: 0.2rem;
+    font-size: clamp(2rem, 7vw, 2.8rem);
+    letter-spacing: 0.04em; color: var(--text); line-height: 1; margin-bottom: 0.2rem;
   }
-
-  .stat-number.loading {
-    color: var(--text-dim);
-    font-size: 2rem;
-    letter-spacing: 0.2em;
-  }
-
+  .stat-number.loading { color: var(--text-dim); letter-spacing: 0.2em; }
   .stat-label {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    font-style: italic;
+    font-size: clamp(0.75rem, 2.2vw, 0.85rem);
+    color: var(--text-muted); font-style: italic;
   }
-
   .stat-live-dot {
-    display: inline-block;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #3ba55c;
-    margin-right: 5px;
-    animation: pulse 2s ease-in-out infinite;
-    vertical-align: middle;
-    position: relative;
-    top: -1px;
+    display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+    background: #3ba55c; margin-right: 5px;
+    animation: livepulse 2s ease-in-out infinite;
+    vertical-align: middle; position: relative; top: -1px;
   }
-
-  @keyframes pulse {
+  @keyframes livepulse {
     0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(59,165,92,0.5); }
     50% { opacity: 0.7; box-shadow: 0 0 0 4px rgba(59,165,92,0); }
   }
 
-  /* ── FOOTER ── */
   footer {
     text-align: center;
-    padding: 3rem 2rem;
-    border-top: 0.5px solid var(--border);
-    background: var(--bg2);
+    padding: clamp(2rem, 5vw, 3rem) clamp(1rem, 5vw, 2rem);
+    border-top: 0.5px solid var(--border); background: var(--bg2);
   }
-
   footer .foot-logo {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 2rem;
-    letter-spacing: 0.1em;
-    color: var(--gold-dim);
-    margin-bottom: 0.5rem;
+    font-size: clamp(1.5rem, 5vw, 2rem);
+    letter-spacing: 0.1em; color: var(--gold-dim); margin-bottom: 0.5rem;
   }
-
   footer p {
     font-family: 'DM Mono', monospace;
-    font-size: 0.68rem;
-    letter-spacing: 0.12em;
-    color: var(--text-dim);
+    font-size: clamp(0.58rem, 1.8vw, 0.68rem);
+    letter-spacing: 0.12em; color: var(--text-dim);
   }
 
-  /* ── DECORATIVE BG LINES ── */
   .bg-lines {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-    opacity: 0.025;
-    background-image:
-      repeating-linear-gradient(
-        90deg,
-        var(--gold) 0px,
-        var(--gold) 1px,
-        transparent 1px,
-        transparent 120px
-      );
+    position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.025;
+    background-image: repeating-linear-gradient(90deg, var(--gold) 0px, var(--gold) 1px, transparent 1px, transparent 120px);
   }
 
-  /* ── FADE IN ANIMATION ── */
-  .fade-in {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
-  }
-  .fade-in.visible {
-    opacity: 1;
-    transform: none;
-  }
-
-  @media (max-width: 600px) {
-    nav ul { display: none; }
-    .hero h1 { font-size: 3.5rem; }
-  }
+  .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.65s ease, transform 0.65s ease; }
+  .fade-in.visible { opacity: 1; transform: none; }
 </style>
 </head>
 <body>
 
 <div class="bg-lines"></div>
 
-<!-- NAV -->
 <nav>
   <a class="logo" href="#">KOW</a>
   <ul>
@@ -489,7 +299,6 @@
   </ul>
 </nav>
 
-<!-- HERO -->
 <div class="hero">
   <div class="hero-crown">♛</div>
   <div class="hero-avatar">KOW</div>
@@ -501,13 +310,8 @@
     <span class="tag">YouTube</span>
     <span class="tag">HonoredLounge</span>
   </div>
-  <div class="hero-scroll">
-    <span>Scroll</span>
-    <div class="scroll-line"></div>
-  </div>
 </div>
 
-<!-- ABOUT -->
 <section id="about">
   <p class="section-label fade-in">Who Is He</p>
   <h2 class="section-title fade-in">About</h2>
@@ -520,18 +324,16 @@
 
 <hr class="divider">
 
-<!-- LINKS -->
 <section id="links">
   <p class="section-label fade-in">Find Me</p>
   <h2 class="section-title fade-in">Links</h2>
-
   <div class="link-grid">
 
     <a class="link-card fade-in" href="https://discord.gg/NZf5nVc8Ub" target="_blank" rel="noopener">
       <div class="link-icon">💬</div>
       <div class="link-text">
         <div class="link-name">Discord Server</div>
-        <div class="link-desc">HonoredLounge — 2775+ members · Free to join</div>
+        <div class="link-desc">HonoredLounge · Free to join</div>
       </div>
       <span class="link-arrow">→</span>
     </a>
@@ -540,7 +342,7 @@
       <div class="link-icon">🎵</div>
       <div class="link-text">
         <div class="link-name">TikTok</div>
-        <div class="link-desc">@thenyzes · Short-form content & clips</div>
+        <div class="link-desc">@thenyzes</div>
       </div>
       <span class="link-arrow">→</span>
     </a>
@@ -549,7 +351,7 @@
       <div class="link-icon">▶</div>
       <div class="link-text">
         <div class="link-name">YouTube</div>
-        <div class="link-desc">@KingOfWheels1 · Follow + Comment for a spin ⛩️</div>
+        <div class="link-desc">@KingOfWheels1</div>
       </div>
       <span class="link-arrow">→</span>
     </a>
@@ -558,7 +360,7 @@
       <div class="link-icon">📸</div>
       <div class="link-text">
         <div class="link-name">Instagram</div>
-        <div class="link-desc">@_kingofwheels_ · Photos & updates</div>
+        <div class="link-desc">@_kingofwheels_</div>
       </div>
       <span class="link-arrow">→</span>
     </a>
@@ -568,11 +370,9 @@
 
 <hr class="divider">
 
-<!-- STATS -->
 <section id="stats">
   <p class="section-label fade-in">Live Data</p>
   <h2 class="section-title fade-in">Insights</h2>
-
   <div class="stats-grid">
 
     <div class="stat-card fade-in" id="discord-members-card">
@@ -587,22 +387,9 @@
       <div class="stat-label"><span class="stat-live-dot"></span>Online Now</div>
     </div>
 
-    <div class="stat-card fade-in">
-      <div class="stat-platform">YouTube</div>
-      <div class="stat-number">—</div>
-      <div class="stat-label">Subscribers</div>
-    </div>
-
-    <div class="stat-card fade-in">
-      <div class="stat-platform">TikTok</div>
-      <div class="stat-number">—</div>
-      <div class="stat-label">Followers</div>
-    </div>
-
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <div class="foot-logo">KingOfWheels</div>
   <p>© 2026 KingOfWheels · All Rights Reserved</p>
@@ -616,50 +403,46 @@
         observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.12 });
-
+  }, { threshold: 0.1 });
   document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 </script>
 
 <script>
   async function fetchDiscordStats() {
-    try {
-      const res = await fetch('/api/discord');
-      if (!res.ok) throw new Error('API error');
-      const data = await res.json();
+    const membersEl = document.getElementById('discord-members');
+    const onlineEl  = document.getElementById('discord-online');
 
-      const membersEl = document.getElementById('discord-members');
-      const onlineEl = document.getElementById('discord-online');
-
-      membersEl.textContent = data.members.toLocaleString();
+    function applyData(members, online) {
+      membersEl.textContent = members.toLocaleString();
       membersEl.classList.remove('loading');
       document.getElementById('discord-members-card').classList.add('loaded');
-
-      onlineEl.textContent = data.online.toLocaleString();
+      onlineEl.textContent = online.toLocaleString();
       onlineEl.classList.remove('loading');
       document.getElementById('discord-online-card').classList.add('loaded');
-    } catch (e) {
-      // If not deployed to Vercel yet, show a friendly fallback
-      // by fetching Discord's public invite API directly
-      try {
-        const res = await fetch('https://discord.com/api/v10/invites/NZf5nVc8Ub?with_counts=true');
-        const data = await res.json();
-
-        const membersEl = document.getElementById('discord-members');
-        const onlineEl = document.getElementById('discord-online');
-
-        membersEl.textContent = (data.approximate_member_count ?? 0).toLocaleString();
-        membersEl.classList.remove('loading');
-        document.getElementById('discord-members-card').classList.add('loaded');
-
-        onlineEl.textContent = (data.approximate_presence_count ?? 0).toLocaleString();
-        onlineEl.classList.remove('loading');
-        document.getElementById('discord-online-card').classList.add('loaded');
-      } catch (e2) {
-        document.getElementById('discord-members').textContent = '—';
-        document.getElementById('discord-online').textContent = '—';
-      }
     }
+
+    // Try Vercel serverless proxy first
+    try {
+      const res = await fetch('/api/discord');
+      if (res.ok) {
+        const d = await res.json();
+        applyData(d.members ?? 0, d.online ?? 0);
+        return;
+      }
+    } catch (_) {}
+
+    // Fallback: Discord public invite API
+    try {
+      const res = await fetch('https://discord.com/api/v10/invites/NZf5nVc8Ub?with_counts=true');
+      if (res.ok) {
+        const d = await res.json();
+        applyData(d.approximate_member_count ?? 0, d.approximate_presence_count ?? 0);
+        return;
+      }
+    } catch (_) {}
+
+    membersEl.textContent = '—';
+    onlineEl.textContent  = '—';
   }
 
   fetchDiscordStats();
