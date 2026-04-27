@@ -332,6 +332,92 @@
     border-top: 0.5px solid var(--border);
   }
 
+  /* ── STATS ── */
+  #stats {
+    padding: 6rem 2rem;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+  }
+
+  .stat-card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 3px;
+    padding: 1.5rem 1.4rem;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+
+  .stat-card:hover { border-color: var(--border-strong); }
+
+  .stat-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+
+  .stat-card.loaded::after { transform: scaleX(1); }
+
+  .stat-platform {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    margin-bottom: 0.75rem;
+  }
+
+  .stat-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.8rem;
+    letter-spacing: 0.04em;
+    color: var(--text);
+    line-height: 1;
+    margin-bottom: 0.2rem;
+  }
+
+  .stat-number.loading {
+    color: var(--text-dim);
+    font-size: 2rem;
+    letter-spacing: 0.2em;
+  }
+
+  .stat-label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-style: italic;
+  }
+
+  .stat-live-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #3ba55c;
+    margin-right: 5px;
+    animation: pulse 2s ease-in-out infinite;
+    vertical-align: middle;
+    position: relative;
+    top: -1px;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(59,165,92,0.5); }
+    50% { opacity: 0.7; box-shadow: 0 0 0 4px rgba(59,165,92,0); }
+  }
+
   /* ── FOOTER ── */
   footer {
     text-align: center;
@@ -399,6 +485,7 @@
   <ul>
     <li><a href="#about">About</a></li>
     <li><a href="#links">Links</a></li>
+    <li><a href="#stats">Insights</a></li>
   </ul>
 </nav>
 
@@ -479,6 +566,42 @@
   </div>
 </section>
 
+<hr class="divider">
+
+<!-- STATS -->
+<section id="stats">
+  <p class="section-label fade-in">Live Data</p>
+  <h2 class="section-title fade-in">Insights</h2>
+
+  <div class="stats-grid">
+
+    <div class="stat-card fade-in" id="discord-members-card">
+      <div class="stat-platform">Discord</div>
+      <div class="stat-number loading" id="discord-members">···</div>
+      <div class="stat-label">Server Members</div>
+    </div>
+
+    <div class="stat-card fade-in" id="discord-online-card">
+      <div class="stat-platform">Discord</div>
+      <div class="stat-number loading" id="discord-online">···</div>
+      <div class="stat-label"><span class="stat-live-dot"></span>Online Now</div>
+    </div>
+
+    <div class="stat-card fade-in">
+      <div class="stat-platform">YouTube</div>
+      <div class="stat-number">—</div>
+      <div class="stat-label">Subscribers</div>
+    </div>
+
+    <div class="stat-card fade-in">
+      <div class="stat-platform">TikTok</div>
+      <div class="stat-number">—</div>
+      <div class="stat-label">Followers</div>
+    </div>
+
+  </div>
+</section>
+
 <!-- FOOTER -->
 <footer>
   <div class="foot-logo">KingOfWheels</div>
@@ -496,6 +619,50 @@
   }, { threshold: 0.12 });
 
   document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+<script>
+  async function fetchDiscordStats() {
+    try {
+      const res = await fetch('/api/discord');
+      if (!res.ok) throw new Error('API error');
+      const data = await res.json();
+
+      const membersEl = document.getElementById('discord-members');
+      const onlineEl = document.getElementById('discord-online');
+
+      membersEl.textContent = data.members.toLocaleString();
+      membersEl.classList.remove('loading');
+      document.getElementById('discord-members-card').classList.add('loaded');
+
+      onlineEl.textContent = data.online.toLocaleString();
+      onlineEl.classList.remove('loading');
+      document.getElementById('discord-online-card').classList.add('loaded');
+    } catch (e) {
+      // If not deployed to Vercel yet, show a friendly fallback
+      // by fetching Discord's public invite API directly
+      try {
+        const res = await fetch('https://discord.com/api/v10/invites/NZf5nVc8Ub?with_counts=true');
+        const data = await res.json();
+
+        const membersEl = document.getElementById('discord-members');
+        const onlineEl = document.getElementById('discord-online');
+
+        membersEl.textContent = (data.approximate_member_count ?? 0).toLocaleString();
+        membersEl.classList.remove('loading');
+        document.getElementById('discord-members-card').classList.add('loaded');
+
+        onlineEl.textContent = (data.approximate_presence_count ?? 0).toLocaleString();
+        onlineEl.classList.remove('loading');
+        document.getElementById('discord-online-card').classList.add('loaded');
+      } catch (e2) {
+        document.getElementById('discord-members').textContent = '—';
+        document.getElementById('discord-online').textContent = '—';
+      }
+    }
+  }
+
+  fetchDiscordStats();
 </script>
 </body>
 </html>
